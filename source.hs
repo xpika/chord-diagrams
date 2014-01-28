@@ -4,10 +4,18 @@ import Diagrams.Prelude
 import Diagrams.Backend.SVG
 import Data.Typeable
 import Music.Diatonic
+import Graphics.SVGFonts.ReadFont (textSVG)
 
-tt t = (text (t) # scale 0.01 # fc white )
-dot c = ( tt c `atop` ((circle 0.02 # fc green) # centerY # lw 0.001))
-vdots q = foldr1 (===)  (zipWith ($) (replicate 4 dot) q)
+noteText t = textSVG t 0.5 #  stroke # fc white # lc white
+
+dot c = ( 
+          (===)    (noteText c  
+          <>  circle 0.3 # fc black # lc purple # lw 0.02 # centerY 
+          <>  vrule 1  # lc white # lw 0.02
+          <>  rect 1 1 # fc orange  # lc orange # lw 0.01) 
+          (hrule 1 # scale 1 #  fc grey )
+        ) 
+vdots q = foldr1 (===) (zipWith ($) (replicate 4 dot) q)
 dotGrid = foldr1 (|||) (map vdots ( map (map show) (frettedGuitarStrings standardTuning) ))
 
 frettedGuitarStrings tuning = map fret tuning
@@ -18,5 +26,4 @@ applyNTimes f n x = iterate f x !! n
 standardTuning = [E,A,D,G,B,E]
 
 liveMain = do
-           print 3
-           renderSVG "file.svg" (Width 1000) (dotGrid :: Diagram B R2)    
+       renderSVG "file.svg" (Width 1000) (dotGrid  :: Diagram B R2)
