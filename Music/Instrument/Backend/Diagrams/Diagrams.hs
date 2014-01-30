@@ -3,8 +3,8 @@
 import Diagrams.Prelude
 import Diagrams.Backend.SVG
 import Data.Typeable
-import Music.Diatonic
 import Graphics.SVGFonts.ReadFont (textSVG)
+import Music.Instrument.Chord
 
 noteText t = textSVG t 0.5 #  stroke # fc white # lc white
 
@@ -23,7 +23,6 @@ fret tune = map (\n -> canonize . applyNTimes sharp n $ tune) [0..]
 
 applyNTimes f n x = iterate f x !! n
 
-standardTuning = [E,A,D,G,B,E]
-
-liveMain = do
+main = do
        renderSVG "file.svg" (Width 1000) (dotGrid  :: Diagram B R2)
+       (print (take 1 $ findPositionPatterns (minorChord B) standardTuning 4))
