@@ -14,7 +14,7 @@ main = do renderSVG "piano.svg" (Absolute) (  (\x -> (hcat (replicate 3 x))) ((l
             (\s -> s (s ((whiteKey # alignT  )) ))
             (\s -> s (s ( s(whiteKey# alignT  )) ))
             ( \ f ->
-                ( strutX 1 ||| rect 1 1# fc grey # alignT ) 
+                ( strutX 1 ||| rect 1 1.125# fc grey # alignT ) 
                 `atop`
                 ((whiteKey# alignT  ) ||| f)
             )) # scaleY 5 # scale 20 # lw 2  :: Diagram B R2) 
